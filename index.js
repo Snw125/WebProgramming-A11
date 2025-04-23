@@ -2,8 +2,6 @@ require('dotenv').config(); // Load environment variables from .env
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const path = require('path');
-const fs = require('fs');
-const readline = require('readline');
 
 const app = express();
 const PORT = process.env.PORT || 3000; 
@@ -16,31 +14,7 @@ const client = new MongoClient(uri);
     try {
         // Connect to MongoDB
         await client.connect();
-        const db = client.db('PublicCompanies');
-        const collection = db.collection('Companies');
-
-        // Populate database from CSV if empty
-        const count = await collection.countDocuments();
-        if (count === 0) {
-            const csvFilePath = path.join(__dirname, 'companies.csv');
-            const fileStream = fs.createReadStream(csvFilePath, 'utf8');
-            const rl = readline.createInterface({
-                input: fileStream,
-                crlfDelay: Infinity
-            });
-
-            for await (const line of rl) {
-                if (!line.trim()) continue;
-                const [name, ticker, price] = line.split(',');
-                const company = {
-                    name: name.trim(),
-                    ticker: ticker.trim(),
-                    price: parseFloat(price.trim())
-                };
-                await collection.insertOne(company);
-            }
-            console.log('Database populated from CSV.');
-        }
+        console.log('Connected to MongoDB');
     } catch (error) {
         console.error('Error:', error);
     }
