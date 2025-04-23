@@ -4,19 +4,23 @@ const { MongoClient } = require('mongodb');
 const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 3000; 
+const PORT = process.env.PORT || 3000;
 
 // MongoDB connection
-const uri = process.env.MONGODB_URI; 
+const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri);
+
+let db; // Variable to store the database connection
 
 (async () => {
     try {
         // Connect to MongoDB
         await client.connect();
+        db = client.db('PublicCompanies'); // Store the database connection
         console.log('Connected to MongoDB');
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error connecting to MongoDB:', error);
+        process.exit(1); // Exit the application if the database connection fails
     }
 })();
 
@@ -31,8 +35,7 @@ app.get('/', (req, res) => {
 // Process view
 app.get('/process', async (req, res) => {
     const { search, type } = req.query; // Get form data
-    const db = client.db('PublicCompanies');
-    const collection = db.collection('Companies');
+    const collection = db.collection('Companies'); // Use the stored database connection
 
     try {
         let results;
@@ -60,7 +63,7 @@ app.get('/process', async (req, res) => {
         }
         res.send(html);
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error processing request:', error);
         res.status(500).send('An error occurred while processing your request.');
     }
 });
@@ -68,6 +71,13 @@ app.get('/process', async (req, res) => {
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
+});
+
+// Handle graceful shutdown
+process.on('SIGINT', async () => {
+    console.log('Shutting down gracefully...');
+    await client.close();
+    process.exit(0);
 });
 
 
