@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Search for a Company</h1>
+    <form method="GET" action="/process">
+        <label for="search">Enter Company Name or Ticker Symbol:</label>
+        <input type="text" id="search" name="search" required>
+        <br>
+        <label>
+            <input type="radio" name="type" value="name" required>
+            Search by Company Name
+        </label>
+        <label>
+            <input type="radio" name="type" value="ticker" required>
+            Search by Ticker Symbol
+        </label>
+        <br>
+        <button type="submit">Search</button>
+    </form>
+</body>
+</html>
