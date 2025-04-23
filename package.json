@@ -1,25 +1,27 @@
 {
-  "name": "webprogramming",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-  "start": "node index.js"
-},
-  "repository": {
-  "type": "git",
-  "url": ""
-},
-  "author": "Stephanie Wilson",
-  "license": "ISC",
-  "bugs": {
-  "url": ""
-},
-  "dependencies": {
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0",
-    "mongodb": "^6.16.0"
-},
-  "homepage": ""
+    "name": "webprogramming",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "author": "Stephanie Wilson",
+    "license": "ISC",
+    "bugs": {
+        "url": ""
+    },
+    "dependencies": {
+        "dotenv": "^16.5.0",
+        "express": "^5.1.0",
+        "mongodb": "^6.16.0"
+    },
+    "engines": {
+        "node": "16.x"
+    }
 }
 
