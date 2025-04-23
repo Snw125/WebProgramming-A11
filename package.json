@@ -20,8 +20,6 @@
     "express": "^5.1.0",
     "mongodb": "^6.16.0"
 },
-  "homepage": ""
-}, 
 {
   "engines": {
     "node": "16.x"
