@@ -18,6 +18,11 @@ let db; // Variable to store the database connection
         await client.connect();
         db = client.db('PublicCompanies'); // Store the database connection
         console.log('Connected to MongoDB');
+
+        // Start the server only after the database connection is established
+        app.listen(PORT, () => {
+            console.log(`Server is running on http://localhost:${PORT}`);
+        });
     } catch (error) {
         console.error('Error connecting to MongoDB:', error);
         process.exit(1); // Exit the application if the database connection fails
@@ -34,6 +39,10 @@ app.get('/', (req, res) => {
 
 // Process view
 app.get('/process', async (req, res) => {
+    if (!db) {
+        return res.status(500).send('Database connection not established.');
+    }
+
     const { search, type } = req.query; // Get form data
     const collection = db.collection('Companies'); // Use the stored database connection
 
@@ -66,11 +75,6 @@ app.get('/process', async (req, res) => {
         console.error('Error processing request:', error);
         res.status(500).send('An error occurred while processing your request.');
     }
-});
-
-// Start the server
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
 });
 
 // Handle graceful shutdown
