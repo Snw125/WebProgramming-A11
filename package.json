@@ -22,7 +22,9 @@
 },
   "homepage": ""
 }, 
-"engines": {
+{
+  "engines": {
     "node": "16.x"
   }
+}
 
